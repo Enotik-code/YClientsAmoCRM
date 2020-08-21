@@ -17,6 +17,6 @@ public class Application{
         ApiContextInitializer.init();
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
         InitializationService service = ctx.getBean(InitializationService.class);
-        service.initializeForMyClass();
+        service.initialize();
     }
 }

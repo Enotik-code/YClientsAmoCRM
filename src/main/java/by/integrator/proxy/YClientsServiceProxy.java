@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(name="YCLIENTS-SERVICE-PROXY", url="https://api.yclients.com")
-
 public interface YClientsServiceProxy {
 
     @PostMapping(value = "/api/v1/auth", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -18,13 +17,13 @@ public interface YClientsServiceProxy {
     @GetMapping(value = "/api/v1/records", consumes = MediaType.APPLICATION_JSON_VALUE)
     JSONObject getRecords(@RequestHeader("Bearer partner_token") String token);
 
-
     String bodyForAuth = "{\n" +
             "  \"login\": \"testuser@yclients.com\",\n" +
             "  \"password\": \"testpass\"\n" +
             "}";
     String partherToken = "";
-    String bodyFromRecords = "{\n" +
+
+    /*String bodyFromRecords = "{\n" +
             "  \"count\": 10,\n" +
             "  \"data\": [\n" +
             "    {\n" +
@@ -196,5 +195,5 @@ public interface YClientsServiceProxy {
             "      \"finance_transactions\": []\n" +
             "    }\n" +
             "  ]\n" +
-            "}";
+            "}";*/
 }

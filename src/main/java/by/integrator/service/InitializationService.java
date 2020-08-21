@@ -15,8 +15,8 @@ public class InitializationService {
     private AmoService amoService;
 
 
-    public void initializeForMyClass() throws IOException, ParseException, InterruptedException {
-       /* List<User> allUsersFromMyClass = myClassService.getAllUser();
+    public void initialize() throws IOException, ParseException, InterruptedException {
+        /* List<User> allUsersFromMyClass = myClassService.getAllUser();
         while(true) {
             List<Result> allUsersFromTalkMe = talkMeService.getAllUsersFromTalkMe();
 
