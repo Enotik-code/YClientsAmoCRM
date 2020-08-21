@@ -24,8 +24,6 @@ public interface YClientsServiceProxy {
             "  \"password\": \"testpass\"\n" +
             "}";
     String partherToken = "";
-
-
     String bodyFromRecords = "{\n" +
             "  \"count\": 10,\n" +
             "  \"data\": [\n" +
