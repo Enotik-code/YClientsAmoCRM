@@ -23,8 +23,8 @@ public class AmoService {
 
     static Logger log = Logger.getLogger(AmoService.class.getName());
 
-    public static String refreshToken = "def5020032c2a34fabf40d10277fe658eb9e1c3a540820de7f4407244e1294a82208ad47b444e4ba1ba6dfc548ddebd0f448f69569f2b196f2735e53677eaa3b3cd8f195bda198c15b62a9cff3f797710dde04d6502b467c4691be687fe95c90dee9f7840faed2ab725c3c57ce902bf380057cce9cb831aadea02550d7c16103e17401f2672e1e8c059ec40004658616964c59fdb2ae5b58f2a76e13de101e78b3ab3af2b287e7be0bfe22cb4a33601a05ef9346b5f6ffc975294e1b69482a5e1fd6152516e51ea2255fc1546d1b71a722776c50d9643d62f3de4991ca7f092529900252f9cdbdd9b8a2334b950a7277a2dfe1dd1a202ee2341af306821be4f2cbea2091ec42e70f12ee47d60b7bd68d36a42cc54e57d2b2cd6683c9ca0359101cb264a4a4cf291f31f7617fd8ff493f00f6ad39bb282ec03e021af74f93a5c57636b032787c2e5f25edc94eb831cfa365c4dfc9469dc4b9d09a8c08721539130bee1bc781c3857b7af376b0bd39f35e35fa64dc89972e9de15c5c4385d9f2a8977bef66bcea17a712aa5d35e9f399748b8f125dd976213f2069556b08f45918a9ddc05bbdd6fffb57991db5f162a5fe647c03c4";
-    public static String accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImIxN2UxYTFjZjEyYTFmNzI0ZGI1YTQxNmQ0YTczY2U0ZTg0ZWYxM2ZiNmNiNzNjMGRmN2NiMjM1ZmZjNjU4NmY0YmQ4ZmUxMjZmZGY4YThjIn0.eyJhdWQiOiI2MWZkYjdhYS01YmNjLTQ0YTgtYjY5Ni1jZDVhMDJlNDRiOWQiLCJqdGkiOiJiMTdlMWExY2YxMmExZjcyNGRiNWE0MTZkNGE3M2NlNGU4NGVmMTNmYjZjYjczYzBkZjdjYjIzNWZmYzY1ODZmNGJkOGZlMTI2ZmRmOGE4YyIsImlhdCI6MTU5ODE3OTQyNSwibmJmIjoxNTk4MTc5NDI1LCJleHAiOjE1OTgyNjU4MjUsInN1YiI6IjYyMTQzNTQiLCJhY2NvdW50X2lkIjoyODk4NTI4Nywic2NvcGVzIjpbInB1c2hfbm90aWZpY2F0aW9ucyIsImNybSIsIm5vdGlmaWNhdGlvbnMiXX0.R8W6hNEf-3UiupgI06HAfVyeY45BCtL_Vx9yfDD7liguRJ9YyLKRPsJKrymZTIPhEWPQgLlF_03Xhz79yW9S3HBHTX1KQhDof7sMUMw_CH4HIe3tJc7SSw0ifQj3mJIGhRr11_aYzhcKuOrk3cSU_E_VTK4ERTv8ji2uMgZ9uPLop71euWgxRZ7q_lWGm2OiLZSLJ-RrHruMV9AoGtNlwmpGEpNVlz9eGVOZYANZUMuB0W_rXu8z0zfFCV9Nv5QjXKFNj8M-KDa-aBfxLTY4A5r0dXmb2Vu-qp0Zr8WYqMBDkUfgGR8-pYyZLp5Wy_K0AfkeZ0ljIgIIj0IaNRpLQg";
+    public static String refreshToken = "def5020055e2ffdce85053ea8c053c7b50d3a997e695e9321659ab611c7cdb069cb69c34ac5456e08e035dd45be876495b978267f4b9867f7f37ea686e9e7a6ae8d98c49f86fa45a969f87a66285e2cf3c56edf3eacb88f94d9ace379c5ee06e39ec74acee6b061ecdc64484c5e9b2bc7f16c0a5aecdf6d77d370a46b3c857fda74842ff00807560c2d64496b0350c1398915d9c9f2d188adcea42382a3bd85976e62611b5e271ee8b265e228e55b3d5f6e8f2d2bd0e5df1b12c32abb7dcfe7b22f4e223a7f8c7f7a56df3e0c464940b6b74c90d8264c5023d5ba9fc6432a57dd8e1f6db13e0f3cd6916d9dfc670822e2c72944c7fa702b40c8ae81fba55a82f3aa0f3f504d039248b2f05b09f55122856ffb0ab71641565e515fd22267f53ea748d88fe62c40a18b96b48c3df4650368dad5f6272d0564eecf06f3233656eb68e7720761bfe487950f19fb3677d41ecb59a92b4eda41d3d699ab5267d6f82e8847c03e382becd09dff9d76f33d8dccdf31933aa01d16b855f8ae3a31da6f6aca5a431f0e592698a2df083575b2c3810563f23576ed8f47dd925a83732029492a1e92edc80d09b5bf78d3aaadbd0bc7db6a86fff";
+    public static String accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImJkMTMyZGQ1ZTUzNTIwYmYyODZkMTlmZjZiMTFkYWU4NjUwNDA0ODQ4NDllMjI1MjQ0OTIxNjlkZmQ4N2M1MzJmZDM1NGE3NzY3ZGQ4NmQ0In0.eyJhdWQiOiJlYjFmNDYyMS1hNGZmLTQxNDgtYWY1Zi0yZGMwNDkyZjgwMmQiLCJqdGkiOiJiZDEzMmRkNWU1MzUyMGJmMjg2ZDE5ZmY2YjExZGFlODY1MDQwNDg0ODQ5ZTIyNTI0NDkyMTY5ZGZkODdjNTMyZmQzNTRhNzc2N2RkODZkNCIsImlhdCI6MTU5ODE5NTcyMiwibmJmIjoxNTk4MTk1NzIyLCJleHAiOjE1OTgyODIxMjIsInN1YiI6IjYyNjQyNjIiLCJhY2NvdW50X2lkIjoyOTAxMDU4Niwic2NvcGVzIjpbInB1c2hfbm90aWZpY2F0aW9ucyIsImNybSIsIm5vdGlmaWNhdGlvbnMiXX0.MfsgQzbN5o-jo6qjZrlg9OcNJzQ9NwFeBYW6rBLvxbIRnWx14QGjYhnKZ6-TkLsRvbiPMEBZ3tD1o4rL-X_AccqV51bJEehJJe6Mji1rI7StAqth88FY8uym9GTNSgAZrJ4h_dDUOQ8loXCcJNg8MxMA_dsEunFckvW2K77hjJBr6pXFrioGpKJz44qfE3HPEHuAeU0ih_-u0tFpPpxmfgdx_mG_jhgc_DUArUKjQo_T9XLwtKH9NgwZMn363j-O-TFEaOkpLAkpF1Nly0hRjp1v7Auqa16fBwwJ8QMlZaKdxjjklHzerse84Knn7QUK43hQAOw4yByIk0DKQLaJkg";
 
     public String getAccessToken(){
         return "Bearer " + accessToken;
@@ -43,7 +43,6 @@ public class AmoService {
         refreshToken = jsonObject.get("refresh_token").toString();
         accessToken = jsonObject.get("access_token").toString();
     }
-
 
     @SneakyThrows
     public void RefreshAccessToken(String clientId, String clientSecret) {
@@ -179,30 +178,8 @@ public class AmoService {
         return "[\n" +
                 "    {\n" +
                 "        \"name\": \"Сделка для примера 1\",\n" +
-                "        \"created_by\": 0,\n" +
                 "        \"price\": 20000,\n" +
-                "        \"pipeline_id\": 3452836,\n" +
-                "        \"custom_fields_values\": [\n" +
-                "            {\n" +
-                "                \"field_id\": 294471,\n" +
-                "                \"values\": [\n" +
-                "                    {\n" +
-                "                        \"value\": \"Наш первый клиент\"\n" +
-                "                    }\n" +
-                "                ]\n" +
-                "            }\n" +
-                "        ]\n" +
-                "    },\n" +
-                "    {\n" +
-                "        \"name\": \"Сделка для примера 2\",\n" +
-                "        \"price\": 10000,\n" +
-                "        \"_embedded\": {\n" +
-                "            \"tags\": [\n" +
-                "                {\n" +
-                "                    \"id\": 2719\n" +
-                "                }\n" +
-                "            ]\n" +
-                "        }\n" +
+                "        \"pipeline_id\": 3502756\n" +
                 "    }\n" +
                 "]";
     }

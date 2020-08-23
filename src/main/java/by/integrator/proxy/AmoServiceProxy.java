@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name="AMO-SERVICE-PROXY", url="https://fvantop.amocrm.ru")
+@FeignClient(name="AMO-SERVICE-PROXY", url="https://edabudetby.amocrm.ru")
 public interface AmoServiceProxy {
 
     @GetMapping(value = "/api/v4/account", consumes = MediaType.APPLICATION_JSON_VALUE)

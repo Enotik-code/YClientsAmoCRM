@@ -21,7 +21,7 @@ public class InitializationService {
         //amoService.ExchangeAuthorizationCodeForAccessTokenAndRefreshToken(clientId, clientSecret, code);
         //amoService.RefreshAccessToken(clientId, clientSecret);
         amoService.createLeads();
-        System.out.println(amoService.getLeads());
+        //System.out.println(amoService.getLeads());
         System.out.println(amoService.getPipelines());
         /* List<User> allUsersFromMyClass = myClassService.getAllUser();
         while(true) {
