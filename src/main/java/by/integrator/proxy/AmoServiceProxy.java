@@ -15,16 +15,23 @@ public interface AmoServiceProxy {
     JSONObject getInfo(@RequestHeader("Bearer") String token);
 
     @GetMapping("/api/v4/contacts")
-    JSONObject getAllContacts(@RequestHeader("x-access-token") String token);
+    JSONObject getAllContacts(@RequestHeader("Authorization") String token);
+
+    @GetMapping("/api/v4/leads")
+    JSONObject getAllLeads(@RequestHeader("Authorization") String token);
 
     @PostMapping(value = "/api/v4/contacts", consumes = MediaType.APPLICATION_JSON_VALUE)
-    JSONObject addContact(@RequestHeader("x-access-token") String token, @RequestBody String body);
+    JSONObject addContact(@RequestHeader("Authorization") String token, @RequestBody String body);
 
     @PostMapping(value = "/oauth2/access_token", consumes = MediaType.APPLICATION_JSON_VALUE)
-    JSONObject getAccessToken(@RequestBody String body);
+    JSONObject getAccessAndRefreshToken(@RequestBody String body);
 
-    @PostMapping(value = "/oauth2/access_token", consumes = MediaType.APPLICATION_JSON_VALUE)
-    JSONObject refreshToken(@RequestBody String body);
+    @GetMapping("/api/v4/leads/pipelines")
+    JSONObject getPipelines(@RequestHeader("Authorization") String token);
+
+    @PostMapping(value = "/api/v4/leads", consumes = MediaType.APPLICATION_JSON_VALUE)
+    JSONObject addLeads(@RequestHeader("Authorization") String token, @RequestBody String body);
+
 
     public static String bodyForHaveNewAccessToken = "{\n" +
             "  \"client_id\": \"61fdb7aa-5bcc-44a8-b696-cd5a02e44b9d\",\n" +
@@ -34,13 +41,10 @@ public interface AmoServiceProxy {
             "  \"redirect_uri\": \"https://talk-me.ru/knowledge_base\"\n" +
             "}";
 
-    public static String answerWithNewAccessToken = "{\n" +
-            "\"token_type\": \"Bearer\",\n" +
+    public static String answerWithNewAccessToken = "\"token_type\": \"Bearer\",\n" +
             "\"expires_in\": 86400,\n" +
-            "\"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijg0MTk1NTQ4ZWYxOGZkN2NlYzlmNDNlNTRlNWQxMzVhNmYyMjJjYTZlMTI0MjM0ZmI1ODg2ZGY4YzIyZTUxM2E4MDkxYzkyZjdiNTg0NDBlIn0.eyJhdWQiOiI2MWZkYjdhYS01YmNjLTQ0YTgtYjY5Ni1jZDVhMDJlNDRiOWQiLCJqdGkiOiI4NDE5NTU0OGVmMThmZDdjZWM5ZjQzZTU0ZTVkMTM1YTZmMjIyY2E2ZTEyNDIzNGZiNTg4NmRmOGMyMmU1MTNhODA5MWM5MmY3YjU4NDQwZSIsImlhdCI6MTU5Njg4OTQxMSwibmJmIjoxNTk2ODg5NDExLCJleHAiOjE1OTY5NzU4MTEsInN1YiI6IjYyMTQzNTQiLCJhY2NvdW50X2lkIjoyODk4NTI4Nywic2NvcGVzIjpbInB1c2hfbm90aWZpY2F0aW9ucyIsImNybSIsIm5vdGlmaWNhdGlvbnMiXX0.sOSpIfy5ooD1g1uzXTPFbyDR4zrFnuO4-3awvpAA9_Ngap16prAEMuRZpD-3CHQYQL1T-u0UKFgDupopIWJonCI8uu1piTRF4ks1aXlNw6SvCp8JgHbF7T1cVoBbAXqpJFNL7_NmispQg0xXYhHeU3nYhRW5fdRA78Cxt6Jrz8DhP6X6KkOcHTc7z2lerBvtjGAAfckCz2-9PYbOljY8dujsch1Z7ZpAhuZZBBao5mOdFyKHQmh5h1sjTZIN0PzhA7w5MFX7A0ygCN3dvGWiqThSOvJ_RMqWjlEA9kZNKdNoGHJTF9sHD2Vp_oNbYnyHEgAKdbH4yi3BKNUY7TWxOg\",\n" +
-            "\"refresh_token\": \"def50200917dfdd5889933e5f5fc466603efe56d5fd08fb41074c48aee9b00ba14627c8f9781830d734b4419eec247c833f1e96cc25dd6d0812a34a817e3cc48841284b3b9f57b92fb88f4718f28d75297553d6d99387f082f5ac78f9c7afdc8e829ecc0e94b6088c9588d86330e65bf0e65ba0e06b2abcfe1b7e22fdbc8675bedd8e37ac2596baa283c75ababfc816f050eb0c269440b2a358377683765df21edcf41d8f4ba77e1f5afc22016af8e09d65a180c4f2483a55423d9b800dc155a8a904c7e11f4015ccdc45fc5a45b27c89259da68996c00dac0730fb897c9ee3c80f372b9c71de8429f62fc2039c6eb0d3855e09a5d3417c2a51c409728da07a65769a5ddfcb21053de6b4d07f2621aac33a9e11a1b6d7962dbe1973ebd926d1c5147527d32569643d185555cc95b9857845dd22e49296aae90c6b0a1640c98d1dc67c5fa2c553cbfe655e37818ab7fee27e7d5862132d5cc49da612f6cf336ebf3c4854d7b8af9bdf06dcbaef82da1cd11468a11feb103f578160eebb1e74f89b25b0ab2ff8665ae560a1403c9b5760ae7bdffe1dbc503e0b98acd69f283864d3b88ec14f59d2629c876ed1eb6cb8ecfe71306a8\"\n" +
+            "\"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImIxN2UxYTFjZjEyYTFmNzI0ZGI1YTQxNmQ0YTczY2U0ZTg0ZWYxM2ZiNmNiNzNjMGRmN2NiMjM1ZmZjNjU4NmY0YmQ4ZmUxMjZmZGY4YThjIn0.eyJhdWQiOiI2MWZkYjdhYS01YmNjLTQ0YTgtYjY5Ni1jZDVhMDJlNDRiOWQiLCJqdGkiOiJiMTdlMWExY2YxMmExZjcyNGRiNWE0MTZkNGE3M2NlNGU4NGVmMTNmYjZjYjczYzBkZjdjYjIzNWZmYzY1ODZmNGJkOGZlMTI2ZmRmOGE4YyIsImlhdCI6MTU5ODE3OTQyNSwibmJmIjoxNTk4MTc5NDI1LCJleHAiOjE1OTgyNjU4MjUsInN1YiI6IjYyMTQzNTQiLCJhY2NvdW50X2lkIjoyODk4NTI4Nywic2NvcGVzIjpbInB1c2hfbm90aWZpY2F0aW9ucyIsImNybSIsIm5vdGlmaWNhdGlvbnMiXX0.R8W6hNEf-3UiupgI06HAfVyeY45BCtL_Vx9yfDD7liguRJ9YyLKRPsJKrymZTIPhEWPQgLlF_03Xhz79yW9S3HBHTX1KQhDof7sMUMw_CH4HIe3tJc7SSw0ifQj3mJIGhRr11_aYzhcKuOrk3cSU_E_VTK4ERTv8ji2uMgZ9uPLop71euWgxRZ7q_lWGm2OiLZSLJ-RrHruMV9AoGtNlwmpGEpNVlz9eGVOZYANZUMuB0W_rXu8z0zfFCV9Nv5QjXKFNj8M-KDa-aBfxLTY4A5r0dXmb2Vu-qp0Zr8WYqMBDkUfgGR8-pYyZLp5Wy_K0AfkeZ0ljIgIIj0IaNRpLQg\",\n" +
+            "\"refresh_token\": \"def5020032c2a34fabf40d10277fe658eb9e1c3a540820de7f4407244e1294a82208ad47b444e4ba1ba6dfc548ddebd0f448f69569f2b196f2735e53677eaa3b3cd8f195bda198c15b62a9cff3f797710dde04d6502b467c4691be687fe95c90dee9f7840faed2ab725c3c57ce902bf380057cce9cb831aadea02550d7c16103e17401f2672e1e8c059ec40004658616964c59fdb2ae5b58f2a76e13de101e78b3ab3af2b287e7be0bfe22cb4a33601a05ef9346b5f6ffc975294e1b69482a5e1fd6152516e51ea2255fc1546d1b71a722776c50d9643d62f3de4991ca7f092529900252f9cdbdd9b8a2334b950a7277a2dfe1dd1a202ee2341af306821be4f2cbea2091ec42e70f12ee47d60b7bd68d36a42cc54e57d2b2cd6683c9ca0359101cb264a4a4cf291f31f7617fd8ff493f00f6ad39bb282ec03e021af74f93a5c57636b032787c2e5f25edc94eb831cfa365c4dfc9469dc4b9d09a8c08721539130bee1bc781c3857b7af376b0bd39f35e35fa64dc89972e9de15c5c4385d9f2a8977bef66bcea17a712aa5d35e9f399748b8f125dd976213f2069556b08f45918a9ddc05bbdd6fffb57991db5f162a5fe647c03c4\"\n" +
             "}";
-
-    public static String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijg0MTk1NTQ4ZWYxOGZkN2NlYzlmNDNlNTRlNWQxMzVhNmYyMjJjYTZlMTI0MjM0ZmI1ODg2ZGY4YzIyZTUxM2E4MDkxYzkyZjdiNTg0NDBlIn0.eyJhdWQiOiI2MWZkYjdhYS01YmNjLTQ0YTgtYjY5Ni1jZDVhMDJlNDRiOWQiLCJqdGkiOiI4NDE5NTU0OGVmMThmZDdjZWM5ZjQzZTU0ZTVkMTM1YTZmMjIyY2E2ZTEyNDIzNGZiNTg4NmRmOGMyMmU1MTNhODA5MWM5MmY3YjU4NDQwZSIsImlhdCI6MTU5Njg4OTQxMSwibmJmIjoxNTk2ODg5NDExLCJleHAiOjE1OTY5NzU4MTEsInN1YiI6IjYyMTQzNTQiLCJhY2NvdW50X2lkIjoyODk4NTI4Nywic2NvcGVzIjpbInB1c2hfbm90aWZpY2F0aW9ucyIsImNybSIsIm5vdGlmaWNhdGlvbnMiXX0.sOSpIfy5ooD1g1uzXTPFbyDR4zrFnuO4-3awvpAA9_Ngap16prAEMuRZpD-3CHQYQL1T-u0UKFgDupopIWJonCI8uu1piTRF4ks1aXlNw6SvCp8JgHbF7T1cVoBbAXqpJFNL7_NmispQg0xXYhHeU3nYhRW5fdRA78Cxt6Jrz8DhP6X6KkOcHTc7z2lerBvtjGAAfckCz2-9PYbOljY8dujsch1Z7ZpAhuZZBBao5mOdFyKHQmh5h1sjTZIN0PzhA7w5MFX7A0ygCN3dvGWiqThSOvJ_RMqWjlEA9kZNKdNoGHJTF9sHD2Vp_oNbYnyHEgAKdbH4yi3BKNUY7TWxOg";
 
 }

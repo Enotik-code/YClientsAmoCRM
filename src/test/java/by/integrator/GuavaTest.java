@@ -23,8 +23,8 @@ public class GuavaTest {
         //  Preconditions.checkState(); проверка состояния
         //  Preconditions.checkNotNull(); проверка на null
         User nullUser = null;
-        Preconditions.checkArgument(!StringUtils.isEmpty(nullUser), "null User");
-        Preconditions.checkNotNull(!StringUtils.isEmpty(nullUser), "null User");
+        Preconditions.checkArgument(StringUtils.isEmpty(nullUser), "null User");
+        Preconditions.checkNotNull(StringUtils.isEmpty(nullUser), "null User");
     }
 
     @Test
