@@ -7,13 +7,15 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+
 
 @Service
 public class AmoService {
@@ -23,10 +25,13 @@ public class AmoService {
 
     static Logger log = Logger.getLogger(AmoService.class.getName());
 
-    public static String refreshToken = "def5020055e2ffdce85053ea8c053c7b50d3a997e695e9321659ab611c7cdb069cb69c34ac5456e08e035dd45be876495b978267f4b9867f7f37ea686e9e7a6ae8d98c49f86fa45a969f87a66285e2cf3c56edf3eacb88f94d9ace379c5ee06e39ec74acee6b061ecdc64484c5e9b2bc7f16c0a5aecdf6d77d370a46b3c857fda74842ff00807560c2d64496b0350c1398915d9c9f2d188adcea42382a3bd85976e62611b5e271ee8b265e228e55b3d5f6e8f2d2bd0e5df1b12c32abb7dcfe7b22f4e223a7f8c7f7a56df3e0c464940b6b74c90d8264c5023d5ba9fc6432a57dd8e1f6db13e0f3cd6916d9dfc670822e2c72944c7fa702b40c8ae81fba55a82f3aa0f3f504d039248b2f05b09f55122856ffb0ab71641565e515fd22267f53ea748d88fe62c40a18b96b48c3df4650368dad5f6272d0564eecf06f3233656eb68e7720761bfe487950f19fb3677d41ecb59a92b4eda41d3d699ab5267d6f82e8847c03e382becd09dff9d76f33d8dccdf31933aa01d16b855f8ae3a31da6f6aca5a431f0e592698a2df083575b2c3810563f23576ed8f47dd925a83732029492a1e92edc80d09b5bf78d3aaadbd0bc7db6a86fff";
-    public static String accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImJkMTMyZGQ1ZTUzNTIwYmYyODZkMTlmZjZiMTFkYWU4NjUwNDA0ODQ4NDllMjI1MjQ0OTIxNjlkZmQ4N2M1MzJmZDM1NGE3NzY3ZGQ4NmQ0In0.eyJhdWQiOiJlYjFmNDYyMS1hNGZmLTQxNDgtYWY1Zi0yZGMwNDkyZjgwMmQiLCJqdGkiOiJiZDEzMmRkNWU1MzUyMGJmMjg2ZDE5ZmY2YjExZGFlODY1MDQwNDg0ODQ5ZTIyNTI0NDkyMTY5ZGZkODdjNTMyZmQzNTRhNzc2N2RkODZkNCIsImlhdCI6MTU5ODE5NTcyMiwibmJmIjoxNTk4MTk1NzIyLCJleHAiOjE1OTgyODIxMjIsInN1YiI6IjYyNjQyNjIiLCJhY2NvdW50X2lkIjoyOTAxMDU4Niwic2NvcGVzIjpbInB1c2hfbm90aWZpY2F0aW9ucyIsImNybSIsIm5vdGlmaWNhdGlvbnMiXX0.MfsgQzbN5o-jo6qjZrlg9OcNJzQ9NwFeBYW6rBLvxbIRnWx14QGjYhnKZ6-TkLsRvbiPMEBZ3tD1o4rL-X_AccqV51bJEehJJe6Mji1rI7StAqth88FY8uym9GTNSgAZrJ4h_dDUOQ8loXCcJNg8MxMA_dsEunFckvW2K77hjJBr6pXFrioGpKJz44qfE3HPEHuAeU0ih_-u0tFpPpxmfgdx_mG_jhgc_DUArUKjQo_T9XLwtKH9NgwZMn363j-O-TFEaOkpLAkpF1Nly0hRjp1v7Auqa16fBwwJ8QMlZaKdxjjklHzerse84Knn7QUK43hQAOw4yByIk0DKQLaJkg";
 
-    public String getAccessToken(){
+    public static String accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjY4YmUyNzk4MjRkNWNlMWJjZGQ4ZDVmNjg4OWVmYzZiZDlkMTQyNTAyMjE3YWZkYTIyZjFlMTJlZmI4M2JiZDRhNzU2NjlhYjRjNmJhMDY2In0.eyJhdWQiOiJlYjFmNDYyMS1hNGZmLTQxNDgtYWY1Zi0yZGMwNDkyZjgwMmQiLCJqdGkiOiI2OGJlMjc5ODI0ZDVjZTFiY2RkOGQ1ZjY4ODllZmM2YmQ5ZDE0MjUwMjIxN2FmZGEyMmYxZTEyZWZiODNiYmQ0YTc1NjY5YWI0YzZiYTA2NiIsImlhdCI6MTU5ODM5MjUxOCwibmJmIjoxNTk4MzkyNTE4LCJleHAiOjE1OTg0Nzg5MTgsInN1YiI6IjYyNjQyNjIiLCJhY2NvdW50X2lkIjoyOTAxMDU4Niwic2NvcGVzIjpbInB1c2hfbm90aWZpY2F0aW9ucyIsImNybSIsIm5vdGlmaWNhdGlvbnMiXX0.lIl6ri6KCyTmOSIRjLMC3eajds1B_ssKLjBqyCCoI3Q1i2ndbG-HHiYIQ4aSth9ReZoK1Yy5WSgqI7qfMjjQ0S-LW9OvtN8J9TJ0WQuzQj3ckiSxGoSwshqkpMwRQPxfAbmtS2fZCD_Dc8zNkqfRMNSCxIcPnO7x3jiZfmacmlpKZ_DhWXLq5cGxIz9ftdyRii5U_2bbGSeqxiUl4GHYrpAin-AN8R5inXKod_aPFPTvTVzPPy6OJKl2eXlPtxE_XDeWXBz8F-Hw1_CrydJySF9V4nhOAv_3RFOIkGpMqQyENkFrBTWbVVWKBFjCG2Z7UF3xW374xter_FNGfRtXpQ";
+    public static String refreshToken = "def5020068a7b17c33e5b03ada740c3da40cb4991132681bbea89f974336e4623c2308a6c1d39b4e9d66d90e648ef31f6b0705eedbbfba4336896c63b4857a65196dfb49be49c93929605b9c2a007dd436096240c959c78083fc44c3adfd649ce7a91cc81a5c32b4dfc9859cdbee90bd58c4eeaefb38951bfca2ac0bca2f1e0ea2282af0645e7d69d902eff53f84cdde60f0355061e9653840ed3ebb57b73356753bea8ce4158b38c72710afe3a6176a67e0cc5bda37cd58cf2ec84522305cac9c58f1b186ea6aaf21dc203598ab36c6b3719a19e630aabed08e15c2056221c2fda79260b42342b670e86c6d40486b4757c27602059cb1c1ae1abe93f897b6baf098bcae0a0e3fa34a7248305fde067a78d703f78e48da16530ba50135a122a3496eb8dd0f81a8bfd5308aef4ea99855956d572a91d0a40a216b4530e522b3a2abd3bdea132a9b6bce1ad30486c94f9e31a4e104f20414237c12b502a2b873c720500ccdcb26336a12389a887916a6d459b52aba264a3ea24068487ce9db0f74933d7348fd61b85d23a30c13689975fc6b48b660d2e3035ba7f8e1af32b0d2e40613f8029d8e54c9fa6dfc689b995a49ea429f41";
+
+    public static Map<Long, String> statusMap = new HashMap<>();
+
+    public String getAccessToken() {
         return "Bearer " + accessToken;
     }
 
@@ -59,26 +64,43 @@ public class AmoService {
     }
 
     @SneakyThrows
-    public void createLeads(){
+    public void createLeads() {
         amoServiceProxy.addLeads(getAccessToken(), getBodyForNewLeads());
     }
 
     @SneakyThrows
-    public String getLeads()  {
+    public String getLeads() {
         JSONObject jsonObject = (JSONObject) new JSONParser().parse(amoServiceProxy.getAllLeads(getAccessToken()).toJSONString());
         JSONObject embeddedObject = (JSONObject) jsonObject.get("_embedded");
         JSONArray leadsArray = (JSONArray) embeddedObject.get("leads");
         Iterator<JSONObject> iterator = leadsArray.iterator();
         List<String> leadsList = new ArrayList<>();
         while (iterator.hasNext()) {
-            iterator.forEachRemaining(el ->
-                leadsList.add(el.get("name").toString() + " ID:" + el.get("id").toString() + "\n"));
+            iterator.forEachRemaining(el ->{
+                if (numberOfDaysUpTo30(((Long) el.get("updated_at")).intValue()) == 30){
+                    updateLeadsIfLastUpdateMoreOneMonth((Long) el.get("id"));
+                }
+                    leadsList.add(el.get("name").toString() + " || ID:" + el.get("id").toString()
+                            + " || Последняя дата: " + (Instant.ofEpochSecond((Long) el.get("updated_at"))) +
+                            "  || Воронка: " + getStatusNameById((Long) el.get("status_id")) + " || Дней до перехода: " +
+                            numberOfDaysUpTo30(((Long) el.get("updated_at")).intValue()) + " ||\n\n");
+            });
         }
-                return leadsList.toString();
+        return leadsList.toString();
+    }
+
+
+    @SneakyThrows
+    public void updateLeadsIfLastUpdateMoreOneMonth(Long idLead){
+        String body = "\n" +
+                "    {\n" +
+                "        \"status_id\": 34626007\n" +
+                "    }\n";
+        amoServiceProxy.updateLead(accessToken, body, idLead);
     }
 
     @SneakyThrows
-    public String getPipelines(){
+    public String getPipelines() {
         JSONObject jsonObject = (JSONObject) new JSONParser().parse(amoServiceProxy.getPipelines(getAccessToken()).toJSONString());
         JSONObject embeddedObject = (JSONObject) jsonObject.get("_embedded");
         JSONArray pipelines = (JSONArray) embeddedObject.get("pipelines");
@@ -86,12 +108,37 @@ public class AmoService {
         JSONObject statusesEmbedded = (JSONObject) embeddedFromPipelines.get("_embedded");
         JSONArray statuses = (JSONArray) statusesEmbedded.get("statuses");
         Iterator<JSONObject> iterator = statuses.iterator();
-        List<String> leadsList = new ArrayList<>();
         while (iterator.hasNext()) {
             iterator.forEachRemaining(el ->
-                    leadsList.add(el.get("name").toString() + " ID:" + el.get("pipeline_id").toString() + "\n"));
+                    statusMap.put((Long) el.get("id"), el.get("name").toString()));
         }
-        return leadsList.toString();
+        return statusMap.toString();
+    }
+
+    @SneakyThrows
+    public Long numberOfDaysUpTo30(int firstDate) {
+        Instant instant = Instant.ofEpochSecond(firstDate);
+        Date dateOfLastUpdate = Date.from(instant);
+        Long diff = LocalDate.now().until(convertToLocalDateViaInstant(dateOfLastUpdate), ChronoUnit.DAYS);
+        return diff + 30;
+    }
+
+    public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
+
+    public Date convertToDateViaInstant(LocalDate dateToConvert) {
+        return java.util.Date.from(dateToConvert.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+    }
+
+
+
+    public String getStatusNameById(Long id) {
+        return statusMap.get(id).toString();
     }
 
     public String getBodyForGetAccessToken() {
@@ -174,7 +221,7 @@ public class AmoService {
         return (user.getName() == "") ? "" : user.getName();
     }
 
-    public String getBodyForNewLeads(){
+    public String getBodyForNewLeads() {
         return "[\n" +
                 "    {\n" +
                 "        \"name\": \"Сделка для примера 1\",\n" +
